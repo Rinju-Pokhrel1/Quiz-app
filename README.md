@@ -31,12 +31,14 @@ Currently, the app uses **manually collected questions** to provide interactive 
 
 ## 📸 Screenshots
 
+### Quiz Screen
+![Quiz Screen](./screenshots/quiz-screen.png)
 
+### Options Screen
+![Options Screen](./screenshots/option-screen.png)
 
-[Quiz Screen]
-![alt text](image.png)
-![alt text](image-1.png)
-[Result Screen]![alt text](image-2.png)
+### Result Screen
+![Result Screen](./screenshots/result-screen.png)
 
 ---
 
