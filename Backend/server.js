@@ -31,10 +31,14 @@ const connectDB = require("./connect");
 const cors =require("cors");
 const app = express();
 const quizRoutes = require("./routes/quiz");
+const AuthRouters =require("./routes/AuthRouters");
+const bodyParser =require("body-parser")
 const PORT = process.env.PORT || 5000;
 app.use(cors());
-
+app.use(bodyParser.json());
 app.use(express.json());
+require("dotenv").config();
+
 
 
 app.get("/", (req, res) => {
@@ -42,7 +46,9 @@ app.get("/", (req, res) => {
 });
 
 // Use quiz routes
-app.use("/api", quizRoutes); // all routes in quiz.js will be under /api
+app.use("/api", quizRoutes); 
+app.use("/auth",AuthRouters);
+// all routes in quiz.js will be under /api
 
 // start server after db connect
 const start = async () => {
