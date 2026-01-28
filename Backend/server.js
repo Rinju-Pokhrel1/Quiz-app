@@ -30,7 +30,7 @@ const express = require("express");
 const connectDB = require("./connect");
 const cors =require("cors");
 const app = express();
-const quizRoutes = require("./routes/quiz");
+const quiz = require("./routes/quiz");
 const AuthRouters =require("./routes/AuthRouters");
 const bodyParser =require("body-parser")
 const PORT = process.env.PORT || 5000;
@@ -46,7 +46,8 @@ app.get("/", (req, res) => {
 });
 
 // Use quiz routes
-app.use("/api", quizRoutes); 
+app.use("/quizzes", quiz);
+
 app.use("/auth",AuthRouters);
 // all routes in quiz.js will be under /api
 
