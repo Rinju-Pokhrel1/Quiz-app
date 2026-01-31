@@ -28,16 +28,15 @@
 
 const express = require("express");
 const connectDB = require("./connect");
-const cors =require("cors");
+const cors = require("cors");
 const app = express();
 const quiz = require("./routes/quiz");
-const AuthRouters =require("./routes/AuthRouters");
-const bodyParser =require("body-parser")
+const AuthRouters = require("./routes/AuthRouters");
+const bodyParser = require("body-parser")
 const PORT = process.env.PORT || 5000;
 app.use(cors());
-app.use(bodyParser.json());
 app.use(express.json());
-require("dotenv").config();
+require("dotenv").config({ path: __dirname + "/.env" });
 
 
 
@@ -45,10 +44,13 @@ app.get("/", (req, res) => {
   res.send("Quiz API Running...");
 });
 
+
 // Use quiz routes
 app.use("/quizzes", quiz);
 
-app.use("/auth",AuthRouters);
+
+
+app.use("/auth", AuthRouters);
 // all routes in quiz.js will be under /api
 
 // start server after db connect
@@ -62,7 +64,7 @@ const start = async () => {
     });
   } catch (error) {
     console.error("Error starting server:", error);
-  
+
   }
 };
 

@@ -2,31 +2,62 @@ import React from "react";
 import "../index.css";
 
 const Home = () => {
+  const role = localStorage.getItem("role");
+
   return (
-    <div>
+    <div className="home">
       {/* Header / Navbar */}
-      <div id="header">
-        <div id="logo">
-          <img src="images/logo.png" alt="Quiz-app" title="Quiz-app" />
+      <header className="header">
+        <div className="logo">
+          <h1>QuizMaster</h1>
         </div>
-
-        <div id="navbar">
-          <a href="index.html">Home</a>
-          <a href="about.html">About Us</a>
-          <a href="contact.html">Contact</a>
-          <a href="products.html">Blogs</a>
+        <nav className="navbar">
+          <a href="/">Home</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          {role === 'admin' && <a href="/admin">Admin</a>}
+        </nav>
+        <div className="auth-buttons">
+          <a href="/login" className="btn btn-secondary">Login</a>
+          <a href="/signup" className="btn btn-primary">Sign Up</a>
         </div>
+      </header>
 
-        <div id="login_reg_panel">
-          <a href="login.html">Login</a>
-          <a href="register.html">Register</a>
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-content">
+          <h1>Test Your Knowledge</h1>
+          <p>Challenge yourself with our interactive quizzes. Learn, compete, and have fun!</p>
+          <a href="/signup" className="btn btn-primary btn-large">Get Started</a>
         </div>
-      </div>
+        <div className="hero-image">
+          <img src="https://via.placeholder.com/500x300?text=Quiz+Illustration" alt="Quiz Illustration" />
+        </div>
+      </section>
 
-      {/* Main content */}
-      <div className="container">
-        <h1>Welcome to Quiz .</h1>
-      </div>
+      {/* Features Section */}
+      <section className="features">
+        <h2>Why Choose QuizMaster?</h2>
+        <div className="features-grid">
+          <div className="feature-card">
+            <h3>📚 Diverse Topics</h3>
+            <p>Explore quizzes on various subjects from science to history.</p>
+          </div>
+          <div className="feature-card">
+            <h3>🏆 Track Progress</h3>
+            <p>Monitor your scores and improve over time.</p>
+          </div>
+          <div className="feature-card">
+            <h3>🔒 Secure & Free</h3>
+            <p>Enjoy a safe, ad-free experience at no cost.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <p>&copy; 2026 QuizMaster. All rights reserved.</p>
+      </footer>
     </div>
   );
 };

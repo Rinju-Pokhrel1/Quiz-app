@@ -18,4 +18,11 @@ const ensureAuthenticated = (req, res, next) => {
     }
 };
 
-module.exports = ensureAuthenticated;
+const ensureAdmin = (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ message: 'Access denied. Admin role required.' });
+    }
+    next();
+};
+
+module.exports = { ensureAuthenticated, ensureAdmin };
