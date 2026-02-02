@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@google/genai": "^1.39.0",
     "bcrypt": "^6.0.0",
@@ -18,7 +18,9 @@
     "express": "^4.18.2",
     "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.1.5"
+    "mongoose": "^9.1.5",
+    "zod": "^3.22.2",
+    "zod-to-json-schema": "^3.21.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

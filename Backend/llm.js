@@ -1,38 +1,74 @@
-require('dotenv').config();
-const { GoogleGenAI } = require('@google/genai');
+import 'dotenv/config';
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+import { GoogleGenAI } from "@google/genai";
+import { z } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
 
-async function generateQuiz(topic = "computer&it", type = "MCQ", numQuestions = 5) {
-    const prompt = `
+
+const questionSchema = z.object({
+  question: z.string().describe("The quiz question"),
+  options: z
+    .object({
+      a: z.string(),
+      b: z.string(),
+      c: z.string(),
+      d: z.string()
+    })
+    .describe("Options labeled with ids a, b, c, d"),
+  answer: z
+    .enum(["a", "b", "c", "d"])
+    .describe("Correct option id")
+});
+
+
+const quizSchema = z.array(questionSchema);
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY
+});
+
+const numQuestions = 30;
+const topic = "tech and it ";
+const type = "multiple choice";
+
+const prompt = `
 Generate ${numQuestions} ${type} questions on ${topic}.
-Provide 4 options for each question and indicate the correct answer.
-Format the output as JSON like this:
+
+Rules:
+- Each question must have exactly 4 options labeled a, b, c, d
+- Answer must be ONLY one of: a, b, c, d
+- Answer must match the correct option
+- Difficulty: beginner
+
+Format the output strictly as JSON like this:
+
 [
   {
     "question": "...",
-    "options": ["a","b","c","d"],
+    "options": {
+      "a": "...",
+      "b": "...",
+      "c": "...",
+      "d": "..."
+    },
     "answer": "a"
   }
 ]
-  `;
 
-    try {
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-        });
+Return ONLY JSON.
+`;
 
-        const responseText = response.candidates[0].content.parts[0].text;
-       
-        const cleanJson = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-        console.log(cleanJson);
-        return JSON.parse(cleanJson); 
-    } catch (error) {
-        console.error("Error generating quiz:", error);
-    }
-}
+const response = await ai.models.generateContent({
+  model: "gemini-3-flash-preview",
+  contents: prompt,
+  config: {
+    responseMimeType: "application/json",
+    responseJsonSchema: zodToJsonSchema(quizSchema)
+  }
+});
 
-// Example usage
-generateQuiz("programming language", "MCQ", 100);
+const quiz = quizSchema.parse(JSON.parse(response.text));
+
+console.log("Generated Quiz:");
+console.log(quiz);
+
+export default quiz;
