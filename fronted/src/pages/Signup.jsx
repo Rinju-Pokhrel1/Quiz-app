@@ -227,65 +227,65 @@ const RegisterPage = () => {
   };
 
   return (
-    <div>
-      <div id="header">
-        <div id="logo">
-          <img src="images/logo.png" alt="eStore" title="eStore" />
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-header">
+          <h1>🧠 Join QuizMaster</h1>
+          <p>Create your account to start learning</p>
         </div>
-        <div id="navbar">
-          <a href="/">Home</a>
-          <a href="/about">About us</a>
-          <a href="/contact">Contact</a>
-          <a href="/products">Products</a>
-        </div>
-        <div id="login_reg_panel">
-          <a href="/login">Login</a>
-          <a href="/signup">Register</a>
-        </div>
-      </div>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              required
+              placeholder="Enter your full name"
+            />
+            <span className="validation_error">{errors.name}</span>
+          </div>
 
-      <div className="container">
-        <div id="register_form">
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Name</label>
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-              />
-              <span className="validation_error">{errors.name}</span>
-            </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              required
+              placeholder="Enter your email"
+            />
+            <span className="validation_error">{errors.email}</span>
+          </div>
 
-            <div>
-              <label>Email</label>
-              <input
-                type="text"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-              />
-              <span className="validation_error">{errors.email}</span>
-            </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              required
+              placeholder="Create a password (min 6 characters)"
+            />
+            <span className="validation_error">{errors.password}</span>
+          </div>
 
-            <div>
-              <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-              />
-              <span className="validation_error">{errors.password}</span>
-            </div>
+          <button type="submit" className="auth-btn">Sign Up</button>
 
-            <div>
-              <input type="submit" id="register_btn" value="Register now" />
-            </div>
-
-            {serverMessage && <p className="server_message">{serverMessage}</p>}
-          </form>
+          {serverMessage && (
+            <p className={`auth-message ${serverMessage.includes('successful') ? 'success' : 'error'}`}>
+              {serverMessage}
+            </p>
+          )}
+        </form>
+        <div className="auth-footer">
+          <p>Already have an account? <a href="/login">Login here</a></p>
         </div>
       </div>
     </div>

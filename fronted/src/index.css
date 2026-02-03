@@ -142,6 +142,7 @@ body {
 .home {
   font-family: 'Arial', sans-serif;
   line-height: 1.6;
+  color: #333;
 }
 
 .header {
@@ -149,15 +150,19 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
   color: white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .logo h1 {
   margin: 0;
   font-size: 1.8rem;
   font-weight: bold;
+  color: #fff;
 }
 
 .navbar {
@@ -169,11 +174,12 @@ body {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s;
+  transition: color 0.3s, transform 0.3s;
 }
 
 .navbar a:hover {
-  color: #e0e0e0;
+  color: #ffeb3b;
+  transform: scale(1.1);
 }
 
 .auth-buttons {
@@ -184,37 +190,55 @@ body {
 .btn {
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary {
-  background: #667eea;
+  background: linear-gradient(45deg, #ff6b6b, #ffa500);
   color: white;
 }
 
 .btn-primary:hover {
-  background: #5a6fd8;
-  transform: translateY(-2px);
+  background: linear-gradient(45deg, #ff5252, #ff9800);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
 }
 
 .btn-secondary {
   background: transparent;
   color: white;
-  border: 1px solid white;
+  border: 2px solid white;
 }
 
 .btn-secondary:hover {
   background: white;
   color: #667eea;
+  transform: translateY(-3px);
 }
 
 .btn-large {
   padding: 0.75rem 1.5rem;
   font-size: 1.1rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .hero {
@@ -224,17 +248,42 @@ body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   min-height: 60vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+  animation: float 20s infinite linear;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100px);
+  }
 }
 
 .hero-content {
   flex: 1;
   max-width: 50%;
+  z-index: 1;
 }
 
 .hero-content h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
   font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero-content p {
@@ -246,25 +295,45 @@ body {
 .hero-image {
   flex: 1;
   text-align: center;
+  z-index: 1;
 }
 
-.hero-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.quiz-icon {
+  font-size: 10rem;
+  animation: bounce 3s infinite;
+}
+
+@keyframes bounce {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-30px);
+  }
+
+  60% {
+    transform: translateY(-15px);
+  }
 }
 
 .features {
   padding: 4rem 2rem;
-  background: #f8f9fa;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   text-align: center;
+  position: relative;
 }
 
 .features h2 {
   font-size: 2.5rem;
   margin-bottom: 3rem;
-  color: #333;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .features-grid {
@@ -276,25 +345,50 @@ body {
 }
 
 .feature-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  backdrop-filter: blur(10px);
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px) rotate(2deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
 
 .feature-card h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: #667eea;
+  color: #333;
 }
 
 .feature-card p {
   color: #666;
+}
+
+.cta {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  text-align: center;
+  color: white;
+}
+
+.cta h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.cta p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
 }
 
 .footer {
@@ -302,7 +396,7 @@ body {
   color: white;
   text-align: center;
   padding: 1rem;
-  margin-top: 2rem;
+  margin-top: 0;
 }
 
 /* Responsive Design */
@@ -329,82 +423,254 @@ body {
   .features-grid {
     grid-template-columns: 1fr;
   }
+
+  .cta h2 {
+    font-size: 2rem;
+  }
 }
 
-/* Admin Page Styles */
-.admin .container {
-  max-width: 1200px;
-  margin: 2rem auto;
+/* Authentication Pages Styles */
+.auth-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.quiz-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  padding: 2rem;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.auth-page::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: float 20s infinite linear;
+  z-index: 0;
 }
 
-.quiz-form input,
-.quiz-form select {
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+.auth-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideUp 0.6s ease-out;
 }
 
-.quiz-form button {
-  grid-column: span 2;
-  padding: 0.75rem;
-  background: #667eea;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.auth-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auth-header p {
+  color: #666;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+  margin-left: 0.25rem;
+}
+
+.form-group input {
+  padding: 1rem 1.25rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
   font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fafbfc;
+  outline: none;
 }
 
-.quizzes-list {
-  margin-top: 2rem;
-}
-
-.quiz-item {
+.form-group input:focus {
+  border-color: #667eea;
   background: white;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
 }
 
-.quiz-item h3 {
-  margin-top: 0;
+.form-group input::placeholder {
+  color: #adb5bd;
+  font-style: italic;
 }
 
-.quiz-item button {
-  margin-right: 0.5rem;
-  padding: 0.25rem 0.5rem;
+.auth-btn {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   border: none;
-  border-radius: 3px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.quiz-item button:first-of-type {
-  background: #ffa500;
-  color: white;
+.auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
 }
 
-.quiz-item button:last-of-type {
-  background: #dc3545;
-  color: white;
+.auth-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
 }
 
-.message {
-  padding: 1rem;
+.auth-message {
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  margin-top: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.auth-message.success {
   background: #d4edda;
   color: #155724;
-  border-radius: 5px;
-  margin-bottom: 1rem;
+  border: 1px solid #c3e6cb;
+}
+
+.auth-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.auth-footer p {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.auth-footer a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.auth-footer a:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+.validation_error {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive Auth Pages */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+
+  .auth-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .auth-form {
+    gap: 1.25rem;
+  }
+
+  .form-group input {
+    padding: 0.875rem 1rem;
+  }
+
+  .auth-btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
 }

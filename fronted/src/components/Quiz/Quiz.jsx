@@ -120,38 +120,38 @@ const Quiz = () => {
 
   // Fetch quizzes from backend
   useEffect(() => {
-  const fetchQuizzes = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("You must login first to take the quiz.");
-      return;
-    }
-
-    try {
-      const res = await fetch("http://localhost:5000/quizzes", {
-        headers: { "Authorization": "Bearer " + token },
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) throw new Error("Unauthorized. Please login again.");
-        throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
-      }
-
-      const data = await res.json();
-      if (data.length === 0) {
-        setError("No quizzes available.");
+    const fetchQuizzes = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("You must login first to take the quiz.");
         return;
       }
 
-      setQuizzes(data);
-      setQuestion(data[0]);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+      try {
+        const res = await fetch("http://localhost:5000/quizzes", {
+          headers: { "Authorization": "Bearer " + token },
+        });
 
-  fetchQuizzes();
-}, []);
+        if (!res.ok) {
+          if (res.status === 401) throw new Error("Unauthorized. Please login again.");
+          throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        if (data.length === 0) {
+          setError("No quizzes available.");
+          return;
+        }
+
+        setQuizzes(data);
+        setQuestion(data[0]);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchQuizzes();
+  }, []);
 
 
   const checkAns = (e, ans) => {
@@ -197,15 +197,23 @@ const Quiz = () => {
     });
   };
 
-  if (error) return <p className="error">{error}</p>;
-  if (!question) return <p>Loading...</p>;
+  if (error) return <div className="container"><p className="error">{error}</p></div>;
+  if (!question) return <div className="container"><p className="loading">Loading quiz...</p></div>;
+
+  const progress = ((index + 1) / quizzes.length) * 100;
 
   return (
     <div className="container">
-      <h1>Quiz App</h1>
+      <h1>🧠 QuizMaster</h1>
       <hr />
       {!result ? (
         <>
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+          </div>
+          <div className="score-display">
+            Score: {score} / {index + 1}
+          </div>
           <h2>
             {index + 1}. {question.question}
           </h2>
@@ -223,18 +231,22 @@ const Quiz = () => {
               {question.option4}
             </li>
           </ul>
-          <button onClick={next}>Next</button>
+          <button onClick={next} disabled={!lock}>
+            {index === quizzes.length - 1 ? "Finish" : "Next"}
+          </button>
           <div className="index">
-            {index + 1} of {quizzes.length} questions
+            Question {index + 1} of {quizzes.length}
           </div>
         </>
       ) : (
-        <>
+        <div className="result-screen">
           <h2>
-            You scored {score} out of {quizzes.length}
+            Quiz Complete! 🎉
           </h2>
-          <button onClick={reset}>Reset</button>
-        </>
+          <p>You scored <strong>{score}</strong> out of <strong>{quizzes.length}</strong></p>
+          <p>Accuracy: {Math.round((score / quizzes.length) * 100)}%</p>
+          <button onClick={reset}>Take Quiz Again</button>
+        </div>
       )}
     </div>
   );

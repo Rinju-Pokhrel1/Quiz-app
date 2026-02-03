@@ -41,61 +41,49 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <div id="header">
-        <div id="logo">
-          <img src="images/logo.png" alt="eStore" title="eStore" />
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-header">
+          <h1>🧠 Welcome Back to QuizMaster</h1>
+          <p>Login to continue your learning journey</p>
         </div>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="Enter your email"
+            />
+          </div>
 
-        <div id="navbar">
-          <a href="/">Index</a>
-          <a href="/about">About us</a>
-          <a href="/contact">Contact</a>
-        </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Enter your password"
+            />
+          </div>
 
-        <div id="login_reg_panel">
-          <a href="/login">Login</a>
-          <a href="/signup">Register</a>
-        </div>
-      </div>
+          <button type="submit" className="auth-btn">Login</button>
 
-      <div className="container">
-        <div id="login_form">
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>
-                <b>Email</b>
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div>
-              <label>
-                <b>Password</b>
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <div>
-              <input type="submit" id="login_btn" value="Login" />
-            </div>
-
-            {serverMessage && <p className="server_message">{serverMessage}</p>}
-          </form>
+          {serverMessage && (
+            <p className={`auth-message ${serverMessage.includes('successful') ? 'success' : 'error'}`}>
+              {serverMessage}
+            </p>
+          )}
+        </form>
+        <div className="auth-footer">
+          <p>Don't have an account? <a href="/signup">Sign up here</a></p>
         </div>
       </div>
     </div>

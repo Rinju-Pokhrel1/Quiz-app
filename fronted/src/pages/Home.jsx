@@ -9,12 +9,10 @@ const Home = () => {
       {/* Header / Navbar */}
       <header className="header">
         <div className="logo">
-          <h1>QuizMaster</h1>
+          <h1>🧠 QuizMaster</h1>
         </div>
         <nav className="navbar">
           <a href="/">Home</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
           {role === 'admin' && <a href="/admin">Admin</a>}
         </nav>
         <div className="auth-buttons">
@@ -26,37 +24,47 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <h1>Test Your Knowledge</h1>
-          <p>Challenge yourself with our interactive quizzes. Learn, compete, and have fun!</p>
-          <a href="/signup" className="btn btn-primary btn-large">Get Started</a>
+          <h1>Challenge Your Mind Daily</h1>
+          <p>Join thousands of users testing their knowledge with fun, interactive quizzes. Learn something new every day!</p>
+          <a href="/signup" className="btn btn-primary btn-large">Start Quizzing Now</a>
         </div>
         <div className="hero-image">
-          <img src="https://via.placeholder.com/500x300?text=Quiz+Illustration" alt="Quiz Illustration" />
+          <div className="quiz-icon">❓</div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="features">
-        <h2>Why Choose QuizMaster?</h2>
+        <h2>Why QuizMaster?</h2>
         <div className="features-grid">
           <div className="feature-card">
-            <h3>📚 Diverse Topics</h3>
-            <p>Explore quizzes on various subjects from science to history.</p>
+            <div className="icon">🎯</div>
+            <h3>Varied Topics</h3>
+            <p>Explore quizzes on history, science, pop culture, and more.</p>
           </div>
           <div className="feature-card">
-            <h3>🏆 Track Progress</h3>
-            <p>Monitor your scores and improve over time.</p>
+            <div className="icon">📈</div>
+            <h3>Track Progress</h3>
+            <p>Monitor your scores and see how you improve over time.</p>
           </div>
           <div className="feature-card">
-            <h3>🔒 Secure & Free</h3>
-            <p>Enjoy a safe, ad-free experience at no cost.</p>
+            <div className="icon">⚡</div>
+            <h3>Quick & Fun</h3>
+            <p>Short, engaging quizzes that fit into your busy schedule.</p>
           </div>
         </div>
       </section>
 
+      {/* Call to Action */}
+      <section className="cta">
+        <h2>Ready to Test Your Knowledge?</h2>
+        <p>Create an account and dive into the world of quizzes!</p>
+        <a href="/signup" className="btn btn-primary btn-large">Join Now</a>
+      </section>
+
       {/* Footer */}
       <footer className="footer">
-        <p>&copy; 2026 QuizMaster. All rights reserved.</p>
+        <p>&copy; 2026 QuizMaster. Challenge yourself daily.</p>
       </footer>
     </div>
   );

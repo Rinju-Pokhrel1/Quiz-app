@@ -54,30 +54,21 @@ router.delete("/:id", ensureAuthenticated, ensureAdmin, async (req, res) => {
 // Generate quizzes using LLM
 router.post("/generate", ensureAuthenticated, ensureAdmin, async (req, res) => {
   try {
-    const { topic = "computer&it", type = "MCQ", numQuestions = 5 } = req.body;
-    const generatedQuizzes = await generateQuiz(topic, type, numQuestions);
+    // Generate quizzes from LLM
+    const generatedQuizzes = await generateQuiz(); // returns [{question, option1..ans}, ...]
 
-    // Assuming generatedQuizzes is an array of quiz objects
-    const savedQuizzes = [];
-    for (const q of generatedQuizzes) {
-      // Map the generated format to the schema
-      // Assuming q has question, options: [a,b,c,d], answer: "a"
-      const option1 = q.options[0] || "";
-      const option2 = q.options[1] || "";
-      const option3 = q.options[2] || "";
-      const option4 = q.options[3] || "";
-      const ans = q.options.indexOf(q.correct_answer) + 1; // 1-based index
+    // Save all quizzes at once
+    const savedQuizzes = await Quiz.insertMany(generatedQuizzes);
 
-      const newQuiz = new Quiz({ question: q.question, option1, option2, option3, option4, ans });
-      await newQuiz.save();
-      savedQuizzes.push(newQuiz);
-    }
-
-    res.status(201).json({ message: "Quizzes generated and saved successfully", quizzes: savedQuizzes });
+    res.status(201).json({
+      message: "Quizzes generated and saved successfully ✅",
+      quizzes: savedQuizzes,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to generate quizzes" });
   }
 });
+
 
 module.exports = router;
