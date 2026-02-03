@@ -1,74 +1,62 @@
 import 'dotenv/config';
-
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
+// import { zodToJsonSchema } from "zod-to-json-schema";
 
-
-const questionSchema = z.object({
-  question: z.string().describe("The quiz question"),
-  options: z
-    .object({
-      a: z.string(),
-      b: z.string(),
-      c: z.string(),
-      d: z.string()
-    })
-    .describe("Options labeled with ids a, b, c, d"),
-  answer: z
-    .enum(["a", "b", "c", "d"])
-    .describe("Correct option id")
+const singleQuizSchema = z.object({
+  question: z.string().describe("The quiz question text of it and tech field"),
+  option1: z.string(),
+  option2: z.string(),
+  option3: z.string(),
+  option4: z.string(),
+  ans: z.number().min(1).max(4),
 });
 
+export const multipleQuizSchema = z.array(singleQuizSchema);
 
-const quizSchema = z.array(questionSchema);
+
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY
 });
-
-const numQuestions = 30;
-const topic = "tech and it ";
-const type = "multiple choice";
-
 const prompt = `
-Generate ${numQuestions} ${type} questions on ${topic}.
+Generate 5 IT and technology multiple-choice quiz questions.
 
-Rules:
-- Each question must have exactly 4 options labeled a, b, c, d
-- Answer must be ONLY one of: a, b, c, d
-- Answer must match the correct option
-- Difficulty: beginner
+Return ONLY a valid JSON ARRAY.
+Each object in the array must follow this format:
 
-Format the output strictly as JSON like this:
+{
+  "question": "string",
+  "option1": "string",
+  "option2": "string",
+  "option3": "string",
+  "option4": "string",
+  "ans": 1 | 2 | 3 | 4
+}
 
-[
-  {
-    "question": "...",
-    "options": {
-      "a": "...",
-      "b": "...",
-      "c": "...",
-      "d": "..."
-    },
-    "answer": "a"
-  }
-]
-
-Return ONLY JSON.
+Do NOT include explanations.
+Do NOT include markdown.
+Do NOT include extra text.
 `;
 
 const response = await ai.models.generateContent({
   model: "gemini-3-flash-preview",
   contents: prompt,
-  config: {
-    responseMimeType: "application/json",
-    responseJsonSchema: zodToJsonSchema(quizSchema)
-  }
 });
 
-const quiz = quizSchema.parse(JSON.parse(response.text));
 
-console.log("Generated Quiz:");
-console.log(quiz);
+const text = response.candidates[0].content.parts[0].text;
 
-export default quiz;
+
+const clean = text.replace(/```json|```/g, "").trim();
+
+let quizzes;
+try {
+  quizzes = JSON.parse(clean);
+  multipleQuizSchema.parse(quizzes);
+} catch (err) {
+  console.error("Failed to parse AI output:", err);
+  console.log("Raw AI output:", clean);
+  throw err;
+}
+
+console.log(quizzes);
