@@ -18,6 +18,7 @@ export const multipleQuizSchema = z.array(singleQuizSchema);
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY
 });
+
 const prompt = `
 Generate 5 IT and technology multiple-choice quiz questions.
 
