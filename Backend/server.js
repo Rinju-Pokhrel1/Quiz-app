@@ -57,17 +57,17 @@
 
 // start server after db connect
 // const start = async () => {
-  // try {
-  //   await connectDB();
-  //   console.log("MongoDB connected successfully");
+// try {
+//   await connectDB();
+//   console.log("MongoDB connected successfully");
 
-  //   app.listen(PORT, () => {
-  //     console.log(`Server running on port ${PORT}`);
-  //   });
-  // } catch (error) {
-  //   console.error("Error starting server:", error);
+//   app.listen(PORT, () => {
+//     console.log(`Server running on port ${PORT}`);
+//   });
+// } catch (error) {
+//   console.error("Error starting server:", error);
 
-  // }
+// }
 //    try {
 //     const quiz = await quizSchema.generateQuiz();
 //     res.json(quiz);
@@ -80,16 +80,23 @@
 
 
 // Backend/server.js
-const express = require("express");
-const connectDB = require("./connect");
-const cors = require("cors");
-const app = express();
-const quizzesRouter = require("./routes/quiz");
-const authRouter = require("./routes/AuthRouters");
-const llm = require("./llm");
-const PORT = process.env.PORT || 5000;
+import express from "express";
+import connectDB from "./connect.js";
+import cors from "cors";
+import quizzesRouter from "./routes/quiz.js";
+import authRouter from "./routes/AuthRouters.js";
+import * as llm from "./llm.js";
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-require("dotenv").config({ path: __dirname + "/.env" });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+dotenv.config({ path: __dirname + "/.env" });
+
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());

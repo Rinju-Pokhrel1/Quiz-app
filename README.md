@@ -1,61 +1,64 @@
-# Quiz Maker App 🎯
+# 🎯 Quiz Maker App (React + AI Ready)
 
-A **React-based Quiz App** designed to help IT students and tech enthusiasts practice multiple-choice questions in the IT and technology field.  
+A modern **React-based Quiz Maker Application** designed for **IT students and tech enthusiasts** to practice multiple-choice questions interactively.
 
-Currently, the app uses **manually collected questions** to provide interactive quizzes with instant feedback and score tracking.  
-
-**Future Enhancement:** Plans to integrate AI to generate dynamic quizzes online, turning it into a full-featured **online Quiz Maker**.  
+The platform allows users to **take quizzes, receive instant feedback, and view final scores**. Quiz data is **stored in a backend data file**, and the project is designed with future scalability in mind, including **LLM (AI) integration** for dynamic quiz generation.
 
 ---
 
-## 🌟 Features
+## 🌟 Key Features
 
-- Take interactive multiple-choice quizzes  
+### 🧠 Quiz Experience
+- Interactive multiple-choice quizzes  
+- Questions displayed **one at a time**  
 - Instant feedback for correct and incorrect answers  
-- Track your score and see results at the end  
-- Reset quizzes to try again  
-- Clean, responsive, and user-friendly interface  
-- Focused on IT and technology-related questions  
-- **Future goal:** AI-powered dynamic quiz generation  
+- Final score and result summary  
+- Reset and retry quizzes  
+
+### 🗂 Data Management
+- Quiz questions stored in a **backend file**
+- Easy-to-update structured quiz data  
+
+### 🤖 AI / LLM Integration
+- LLM-based logic implemented for smart quiz handling  
+- Architecture prepared for **AI-generated quizzes**
+- Future-ready **Online Quiz Maker** design  
+
+### 📱 User Interface
+- Clean and intuitive UI  
+- Fully **responsive design** (mobile, tablet, desktop)  
+- Smooth user experience  
 
 ---
 
-## 🛠 Built With
+## 🛠 Tech Stack
 
-- **React.js** – Functional components & hooks  
-- **CSS** – Styling and layout  
-- **Vite / Create React App** – Project setup and build  
-- **React DevTools** – Optional debugging tool  
+### Frontend
+- ⚛️ React.js (Functional Components & Hooks)
+- 🎨 CSS
+- ⚡ Vite / Create React App
 
----
+### Backend & Logic
+- 📁 File-based backend data storage  
+- 🤖 LLM integration (experimental & extendable)
 
-## 📸 Screenshots
-
-### Quiz Screen
-![Quiz Screen](./screenshots/quiz-screen.png)
-
-### Options Screen
-![Options Screen](./screenshots/option-screen.png)
-
-### Result Screen
-![Result Screen](./screenshots/result-screen.png)
+### Tools
+- Git & GitHub  
+- React DevTools  
+- Vercel (Deployment)
 
 ---
 
 ## 🚀 Live Demo
 
-The app is deployed and live on **Vercel**:  
-[https://quiz-rfgl5yol8-rinju-pokhrels-projects.vercel.app](https://quiz-rfgl5yol8-rinju-pokhrels-projects.vercel.app)  
-
-> This is the production deployment URL from Vercel.  
+🔗 **Deployed on Vercel**  
+👉 https://quiz-rfgl5yol8-rinju-pokhrels-projects.vercel.app
 
 ---
 
 ## 💻 Getting Started (Local Setup)
 
-Follow these steps to run the project locally:  
-
-### 1. Clone the repository
+### 1️⃣ Clone the Repository
 ```bash
 git clone https://github.com/Rinju-Pokhrel1/Quiz-app.git
 cd Quiz-app

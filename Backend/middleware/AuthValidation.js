@@ -1,5 +1,5 @@
 // joi library used as middleware
-const Joi = require("joi");
+import Joi from "joi";
 
 // signup validation
 const signupValidation = (req, res, next) => {
@@ -40,7 +40,4 @@ const loginValidation = (req, res, next) => {
     next();
 };
 
-module.exports = {
-    signupValidation,
-    loginValidation
-};
+export { signupValidation, loginValidation };

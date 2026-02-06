@@ -1,11 +1,12 @@
-const express = require("express");
+import express from "express";
+import Quiz from "../models/Quiz.js";
+import { ensureAuthenticated, ensureAdmin } from "../middleware/Auth.js";
+import { generateQuiz } from "../llm.js";
+
 const router = express.Router();
-const Quiz = require("../models/Quiz");
-const { ensureAuthenticated, ensureAdmin } = require("../middleware/Auth");
-const { generateQuiz } = require("../llm");
 
 router.get("/", ensureAuthenticated, async (req, res) => {
-  console.log("logged in ", req.user); // <- fixed
+  console.log("logged in ", req.user);
   try {
     const quizzes = await Quiz.find();
     res.json(quizzes);
@@ -51,7 +52,6 @@ router.delete("/:id", ensureAuthenticated, ensureAdmin, async (req, res) => {
   }
 });
 
-// Generate quizzes using LLM
 router.post("/generate", ensureAuthenticated, ensureAdmin, async (req, res) => {
   try {
     // Generate quizzes from LLM
@@ -61,7 +61,7 @@ router.post("/generate", ensureAuthenticated, ensureAdmin, async (req, res) => {
     const savedQuizzes = await Quiz.insertMany(generatedQuizzes);
 
     res.status(201).json({
-      message: "Quizzes generated and saved successfully ✅",
+      message: "Quizzes generated and saved successfully ",
       quizzes: savedQuizzes,
     });
   } catch (err) {
@@ -70,5 +70,5 @@ router.post("/generate", ensureAuthenticated, ensureAdmin, async (req, res) => {
   }
 });
 
+export default router;
 
-module.exports = router;

@@ -19,8 +19,11 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY
 });
 
-const prompt = `
-Generate 5 IT and technology multiple-choice quiz questions.
+export const generateQuiz = async (params = {}) => {
+  const { topic = "IT and technology", difficulty = "medium", count = 5 } = params;
+
+  const prompt = `
+Generate ${count} ${difficulty} ${topic} multiple-choice quiz questions.
 
 Return ONLY a valid JSON ARRAY.
 Each object in the array must follow this format:
@@ -39,25 +42,21 @@ Do NOT include markdown.
 Do NOT include extra text.
 `;
 
-const response = await ai.models.generateContent({
-  model: "gemini-3-flash-preview",
-  contents: prompt,
-});
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: prompt,
+    });
 
+    const text = response.candidates[0].content.parts[0].text;
+    const clean = text.replace(/```json|```/g, "").trim();
 
-const text = response.candidates[0].content.parts[0].text;
+    const quizzes = JSON.parse(clean);
+    multipleQuizSchema.parse(quizzes);
 
-
-const clean = text.replace(/```json|```/g, "").trim();
-
-let quizzes;
-try {
-  quizzes = JSON.parse(clean);
-  multipleQuizSchema.parse(quizzes);
-} catch (err) {
-  console.error("Failed to parse AI output:", err);
-  console.log("Raw AI output:", clean);
-  throw err;
-}
-
-console.log(quizzes);
+    return quizzes;
+  } catch (err) {
+    console.error("Failed to generate quiz:", err);
+    throw err;
+  }
+};

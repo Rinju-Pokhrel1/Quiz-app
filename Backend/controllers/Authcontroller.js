@@ -1,6 +1,6 @@
-const User = require("../models/user");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import User from "../models/user.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 
 // SIGNUP
@@ -8,7 +8,17 @@ const signup = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
-        const existingUser = await User.findOne({ email });
+        
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // 👇 PASTE THIS HERE
+    const count = await User.countDocuments();
+    console.log("Total users in DB:", count);
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email: normalizedEmail });
+    console.log("Existing user found:", existingUser);
+
         if (existingUser) {
             return res.status(409).json({
                 message: "User already exists",
@@ -19,8 +29,8 @@ const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = new User({
-            name,
-            email,
+            name: name.trim(),
+            email: normalizedEmail,
             password: hashedPassword
         });
 
@@ -32,9 +42,20 @@ const signup = async (req, res) => {
         });
 
     } catch (err) {
+        console.error("Signup error:", err);
+
+        // Handle duplicate key error from MongoDB
+        if (err.code === 11000) {
+            return res.status(409).json({
+                message: "Email already registered",
+                success: false
+            });
+        }
+
         res.status(500).json({
             message: "Internal server error",
-            success: false
+            success: false,
+            error: err.message
         });
     }
 };
@@ -43,9 +64,10 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log("Login attempt for:", email);
+        const normalizedEmail = email.trim().toLowerCase();
+        console.log("Login attempt for:", normalizedEmail);
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: normalizedEmail });
         const errorMsg = "Auth failed: email or password is wrong";
 
         if (!user) {
@@ -92,7 +114,4 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = {
-    signup,
-    login
-};
+export { signup, login };

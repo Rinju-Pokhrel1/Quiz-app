@@ -1,9 +1,10 @@
-const router = require("express").Router();
+import express from "express";
+import { signupValidation, loginValidation } from "../middleware/AuthValidation.js";
+import { signup, login } from "../controllers/Authcontroller.js";
+import { ensureAuthenticated, ensureAdmin } from "../middleware/Auth.js";
+import User from "../models/user.js";
 
-const { signupValidation, loginValidation } = require("../middleware/AuthValidation");
-const { signup, login } = require("../controllers/Authcontroller");
-const { ensureAuthenticated, ensureAdmin } = require("../middleware/Auth");
-const User = require("../models/user");
+const router = express.Router();
 
 router.post("/signup", signupValidation, signup);
 router.post("/login", loginValidation, login);
@@ -19,7 +20,7 @@ router.put("/promote/:id", ensureAuthenticated, ensureAdmin, async (req, res) =>
     }
 });
 
-module.exports = router;
+export default router;
 
 
 // router.post("/signup", signupValidation, (req, res) => {
