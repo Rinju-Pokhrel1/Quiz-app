@@ -60,5 +60,5 @@ The platform allows users to **take quizzes, receive instant feedback, and view 
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/Rinju-Pokhrel1/Quiz-app.git
+git clone https://github.com/Rinju-Pokhrel1/Codsoft
 cd Quiz-app

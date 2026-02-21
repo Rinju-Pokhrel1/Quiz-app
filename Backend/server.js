@@ -85,10 +85,13 @@ import connectDB from "./connect.js";
 import cors from "cors";
 import quizzesRouter from "./routes/quiz.js";
 import authRouter from "./routes/AuthRouters.js";
-import * as llm from "./llm.js";
+import userroutes from "./routes/userroutes.js";
+import adminroute from "./routes/adminroute.js";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import * as llm from "./llm.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -106,6 +109,8 @@ app.get("/", (req, res) => res.send("Quiz API Running..."));
 // Mount routers
 app.use("/quizzes", quizzesRouter);
 app.use("/auth", authRouter);
+    app.use("/user", userroutes);
+    app.use("/admin", adminroute);
 
 // LLM-backed quiz generation endpoint
 app.post("/quizzes/generate", async (req, res) => {
